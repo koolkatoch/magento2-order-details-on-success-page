@@ -1,0 +1,73 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
+<?php $_order = $block->getOrderItemsDetails(); ?>
+<div class="checkout-success">
+    <?php if ($block->getOrderId()):?>
+        <?php if ($block->getCanViewOrder()) :?>
+            <p><?php echo __('Your order number is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></p>
+        <?php  else :?>
+            <p><?php echo __('Your order # is: <span>%1</span>.', $block->escapeHtml($block->getOrderId())) ?></p>
+        <?php endif;?>
+            <p><?php /* @escapeNotVerified */ echo __('We have emailed an order confirmation to the address you provided.  We will send an email with tracking information when your order ships.') ?></p>
+    <?php endif;?>
+
+    <?php echo $block->getAdditionalInfoHtml() ?>
+
+    <div class="actions-toolbar">
+        <div class="primary">
+            <a class="action primary continue" href="<?php /* @escapeNotVerified */ echo $block->getUrl() ?>"><span><?php /* @escapeNotVerified */ echo __('Continue Shopping') ?></span></a>
+        </div>
+    </div>
+</div>
+<?php
+//$shipping_addresses = $_order->getShippingAddress()->getData(); Shipping Address
+//$billing_addresses = $_order->getBillingAddress()->getData(); Billing Address
+//$order_subtotal = $_order->formatPrice($_order->getSubTotal());  Sub Total
+//$Shipping_Handling = $_order->formatPrice($_order->getShippingAmount()); Shipping & Handling
+//$Grand_Total = $_order->formatPrice($_order->getGrandTotal());  Grand Total
+?>
+
+<!--  Tracking code examples Starts-->
+<!-- Shopzilla Tracking -->
+   <script language="javascript">
+   <!--
+      /* Performance Tracking Data */
+      var mid            = '<123454>';   
+      var cust_type      = '';
+      var order_value    = '<?php echo number_format($_order->getGrandTotal(),2); ?>';
+      var order_id       = '<?php echo $block->escapeHtml($block->getOrderId()); ?>';
+      var units_ordered  = '';
+   //-->
+   </script>
+   <script language="javascript" src="https://images.bizrate.com/api/roi_tracker.min.js?v=1"></script>
+<!-- End Shopzilla Tracking -->
+
+<!-- Single Feed Tracking -->
+<script type="text/javascript">
+<!--
+var order_id = "<?php echo $block->escapeHtml($block->getOrderId()); ?>";
+var order_value = "<?php echo number_format($_order->getGrandTotal(),2); ?>";
+var total_units = "";
+var product_ids = "";
+var product_units = "";
+//-->
+</script>
+<script src="https://reporting.singlefeed.com/z/convert.pl?merchant_id=<12345>" type="text/javascript" ></script>
+
+
+<!-- Bing Tracking -->
+<script>
+var amount = <?php echo number_format($_order->getGrandTotal(),2); ?>;
+window.uetq = window.uetq || [];
+window.uetq.push({ 'gv': amount, 'gc': 'USD' })
+</script>
+<!-- End Bing Tracking -->
+<!--  Tracking code examples Ends-->
